@@ -1,0 +1,13 @@
+- user: ubuntu
+  become: yes
+  hosts: nodes
+  gather_facts: yes
+  tasks:
+  - shell: ./emqx start
+    args:
+      chdir: /root/emqx-4.3/emqx/bin/
+  - shell: ./emqx_ctl cluster join emqx@ip-10-10-2-132.eu-west-1.compute.internal
+    args:
+      chdir: /root/emqx-4.3/emqx/bin/
+
+

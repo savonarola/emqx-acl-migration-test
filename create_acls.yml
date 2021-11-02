@@ -1,0 +1,17 @@
+- user: ubuntu
+  become: yes
+  hosts: api_node
+  gather_facts: yes
+  tasks:
+  - copy:
+      src: prepare-acl.py
+      dest: /root/emqx-4.3/prepare-acl.py
+  - shell: python3 prepare-acl.py 4.3 {{start_from}} 5000
+    args:
+      chdir: /root/emqx-4.3/
+
+
+
+
+
+

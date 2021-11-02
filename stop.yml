@@ -1,0 +1,11 @@
+- user: ubuntu
+  become: yes
+  hosts: nodes
+  gather_facts: yes
+  tasks:
+  - shell: ./emqx stop
+    args:
+      chdir: /root/emqx-4.3/emqx/bin/
+    ignore_errors: yes
+
+

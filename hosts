@@ -1,0 +1,13 @@
+[nodes]
+emqx-0.int.emqx
+emqx-1.int.emqx
+emqx-2.int.emqx
+emqx-3.int.emqx
+emqx-4.int.emqx
+
+[api_node]
+emqx-0.int.emqx
+
+[loadgens]
+loadgen-0.int.emqx
+loadgen-1.int.emqx

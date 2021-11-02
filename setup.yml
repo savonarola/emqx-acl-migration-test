@@ -1,0 +1,50 @@
+- user: ubuntu
+  become: yes
+  hosts: nodes
+  gather_facts: yes
+  tasks:
+  - shell: ./emqx stop
+    args:
+      chdir: /root/emqx/_build/emqx-pkg/rel/emqx/bin
+    ignore_errors: yes
+  - shell: ./emqx stop
+    args:
+      chdir: /root/emqx-4.3/emqx/bin/
+    ignore_errors: yes
+  - debug:
+      msg: "Hostname: {{ ansible_fqdn }}"
+  - file:
+      dest: /root/emqx-4.3
+      state: absent
+  - file:
+      dest: /root/emqx-4.3
+      state: directory
+  - copy:
+      src: emqx.tar.gz
+      dest: /root/emqx-4.3/emqx.tar.gz
+  - shell: tar xf emqx.tar.gz
+    args:
+      chdir: /root/emqx-4.3
+  - file:
+      dest: /root/emqx-4.3/emqx/data/mnesia
+      state: absent
+  - lineinfile:
+      path: /root/emqx-4.3/emqx/etc/emqx.conf
+      regexp: '^node\.name = '
+      line: "node.name = emqx@{{ ansible_fqdn }}"
+  - lineinfile:
+      path: /root/emqx-4.3/emqx/etc/emqx.conf
+      regexp: '^acl_nomatch = '
+      line: "acl_nomatch = deny"
+  - lineinfile:
+      path: /root/emqx-4.3/emqx/etc/emqx.conf
+      regexp: '^allow_anonymous = '
+      line: "allow_anonymous = false"
+  - lineinfile:
+      path: /root/emqx-4.3/emqx/data/loaded_plugins
+      line: "{emqx_auth_mnesia, true}."
+
+
+
+
+
